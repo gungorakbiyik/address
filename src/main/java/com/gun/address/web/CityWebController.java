@@ -12,6 +12,10 @@ import javax.validation.Valid;
 
 @Controller
 public class CityWebController {
+
+    private final String CITIES_PATH = "cities";
+    private final String CITY_PATH = "city";
+
     private CityService cityService;
 
     @Autowired
@@ -23,14 +27,14 @@ public class CityWebController {
     @RequestMapping("/cities")
     public String getCities(Model model) {
         findAll(model);
-        return "cities";
+        return CITIES_PATH;
     }
 
     @GetMapping
     @RequestMapping("/cities/search")
     public String search(Model model, @RequestParam("searchCityName") String searchCityName) {
         findAllByNameLike(model, searchCityName);
-        return "cities";
+        return CITIES_PATH;
     }
 
     @GetMapping
@@ -38,7 +42,7 @@ public class CityWebController {
     public String addOrUpdateCity(Model model) {
         model.addAttribute("cityDto", new CityDto());
         model.addAttribute("action", "/addCity");
-        return "city";
+        return CITY_PATH;
     }
 
     @GetMapping
@@ -47,7 +51,7 @@ public class CityWebController {
         CityDto cityDto = cityService.findById(cityId);
         model.addAttribute("cityDto", cityDto);
         model.addAttribute("action", "/updateCity");
-        return "city";
+        return CITY_PATH;
     }
 
     @PostMapping
@@ -65,7 +69,7 @@ public class CityWebController {
 
     private String saveOrUpdate(CityDto cityDto, BindingResult result, Model model, boolean isInsert) {
         if (result.hasErrors()) {
-            return "city";
+            return CITY_PATH;
         }
 
         try {
@@ -76,7 +80,7 @@ public class CityWebController {
             }
         } catch (RuntimeException e) {
             model.addAttribute("errorData", e.getMessage());
-            return "city";
+            return CITY_PATH;
         }
         findAll(model);
         return "redirect:cities";

@@ -13,6 +13,8 @@ import javax.validation.Valid;
 
 @Controller
 public class DistrictWebController {
+    private final String DISTRICTS = "districts";
+    private final String DISTRICT_DETAIL = "district";
     private CityService cityService;
     private DistrictService districtService;
 
@@ -26,7 +28,7 @@ public class DistrictWebController {
     @RequestMapping("/districts/{cityId}")
     public String getDistricts(@PathVariable("cityId") int cityId, Model model) {
         findAll(cityId, model);
-        return "districts";
+        return DISTRICTS;
     }
 
     @GetMapping
@@ -34,7 +36,7 @@ public class DistrictWebController {
     public String getDistricts(@PathVariable("cityId") int cityId,
                                @RequestParam("searchDistrictName") String searchDistrictName, Model model) {
         findAllByName(cityId, searchDistrictName, model);
-        return "districts";
+        return DISTRICTS;
     }
 
 
@@ -45,7 +47,7 @@ public class DistrictWebController {
         model.addAttribute("districtDto", new DistrictDto());
         model.addAttribute("action", String.format("/district/%d/save", cityId));
         model.addAttribute("cityId", cityId);
-        return "district";
+        return DISTRICT_DETAIL;
     }
 
     @GetMapping
@@ -55,7 +57,7 @@ public class DistrictWebController {
         model.addAttribute("districtDto", districtService.findByIdAndCityId(districtId, cityId));
         model.addAttribute("action", String.format("/district/%d/update", cityId));
         model.addAttribute("cityId", cityId);
-        return "district";
+        return DISTRICT_DETAIL;
     }
 
     @PostMapping
@@ -76,7 +78,7 @@ public class DistrictWebController {
     private String insertOrUpdate(int cityId, DistrictDto districtDto, BindingResult bindingResult, Model model,
                                   boolean isInsert) {
         if (bindingResult.hasErrors()) {
-            return "district";
+            return DISTRICT_DETAIL;
         }
         try {
             if (isInsert) {
@@ -86,7 +88,7 @@ public class DistrictWebController {
             }
         } catch (RuntimeException e) {
             model.addAttribute("errorData", e.getMessage());
-            return "district";
+            return DISTRICT_DETAIL;
         }
 
 
