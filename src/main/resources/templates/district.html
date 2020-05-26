@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Address Application</title>
+
+</head>
+<body class="d-flex flex-column h-100">
+    <div class="container pt-4 pb-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+            <div class="collapse navbar-collapse" id="navbarsExample09">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/districts/{cityId}(cityId=${cityId})}">Back</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <main role="main" class="flex-shrink-0">
+        <div class="container">
+            <h1>Edit District</h1>
+            <form action="#" th:attr="action=@{${action}}" th:object="${districtDto}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <div class="form-group">
+                    <label for="name">District Name</label>
+                    <input type="text" th:field="*{name}" id="name" placeholder="District Name"/>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Save"/>
+                <div th:if="${errorData}">
+                    <h3>Error:</h3>
+                    <p th:text="${errorData}" />
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
