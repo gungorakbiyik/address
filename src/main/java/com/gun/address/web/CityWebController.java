@@ -83,7 +83,7 @@ public class CityWebController {
             return CITY_PATH;
         }
         findAll(model);
-        return "redirect:cities";
+        return "redirect:" + CITIES_PATH;
     }
 
 
